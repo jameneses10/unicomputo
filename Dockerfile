@@ -15,13 +15,25 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN npm run build
+RUN composer dump-autoload --optimize
 
-RUN npm ci && npm run build
-
-RUN chmod -R 775 storage bootstrap/cache
+RUN mkdir -p storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
+    database \
+    && touch database/database.sqlite \
+    && chmod -R 775 storage bootstrap/cache database
 
 EXPOSE 10000
 

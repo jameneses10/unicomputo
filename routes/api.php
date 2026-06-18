@@ -7,6 +7,6 @@ Route::get('/productos', function () {
     return response()->json([
         'success' => true,
         'message' => 'Listado de productos',
-        'data' => Producto::all()
+        'data' => Producto::all(),
     ]);
 });

@@ -8,61 +8,58 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-6 shadow-sm sm:rounded-lg">
-
                 @if(session('success'))
-                    <div style="color: green; margin-bottom: 15px;">
+                    <div class="mb-4 rounded bg-green-100 px-4 py-2 text-green-700">
                         {{ session('success') }}
                     </div>
                 @endif
 
-                <a href="{{ route('productos.create') }}"
-                   style="background: #2563eb; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none;">
+                <a href="{{ route('productos.create') }}" class="inline-block rounded bg-blue-600 px-4 py-2 text-white">
                     Crear producto
                 </a>
 
-                <br><br>
-
-                <table border="1" cellpadding="10" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th>Categoría</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @forelse($productos as $producto)
-                            <tr>
-                                <td>{{ $producto->codigo }}</td>
-                                <td>{{ $producto->nombre }}</td>
-                                <td>{{ $producto->precio }}</td>
-                                <td>{{ $producto->cantidad }}</td>
-                                <td>{{ $producto->categoria }}</td>
-                                <td>
-                                    <a href="{{ route('productos.edit', $producto) }}">Editar</a>
-
-                                    <form action="{{ route('productos.destroy', $producto) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button type="submit" onclick="return confirm('¿Desea eliminar este producto?')">
-                                            Eliminar
-                                        </button>
-                                    </form>
-                                </td>
+                <div class="mt-6 overflow-x-auto">
+                    <table class="w-full border-collapse border border-gray-300 text-sm">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border border-gray-300 px-3 py-2">Código</th>
+                                <th class="border border-gray-300 px-3 py-2">Nombre</th>
+                                <th class="border border-gray-300 px-3 py-2">Precio</th>
+                                <th class="border border-gray-300 px-3 py-2">Cantidad</th>
+                                <th class="border border-gray-300 px-3 py-2">Categoría</th>
+                                <th class="border border-gray-300 px-3 py-2">Acciones</th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" align="center">No hay productos registrados.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @forelse($productos as $producto)
+                                <tr>
+                                    <td class="border border-gray-300 px-3 py-2">{{ $producto->codigo }}</td>
+                                    <td class="border border-gray-300 px-3 py-2">{{ $producto->nombre }}</td>
+                                    <td class="border border-gray-300 px-3 py-2">{{ number_format($producto->precio, 2) }}</td>
+                                    <td class="border border-gray-300 px-3 py-2">{{ $producto->cantidad }}</td>
+                                    <td class="border border-gray-300 px-3 py-2">{{ $producto->categoria }}</td>
+                                    <td class="border border-gray-300 px-3 py-2">
+                                        <a href="{{ route('productos.edit', $producto) }}" class="text-blue-600">Editar</a>
 
+                                        <form action="{{ route('productos.destroy', $producto) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="ml-2 text-red-600" onclick="return confirm('¿Desea eliminar este producto?')">
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="border border-gray-300 px-3 py-4 text-center">
+                                        No hay productos registrados.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

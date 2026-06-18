@@ -29,7 +29,13 @@ class ProductoController extends Controller
             'categoria' => 'required|string|max:100',
         ]);
 
-        Producto::create($request->all());
+        Producto::create($request->only([
+            'codigo',
+            'nombre',
+            'precio',
+            'cantidad',
+            'categoria',
+        ]));
 
         return redirect()
             ->route('productos.index')
@@ -51,7 +57,13 @@ class ProductoController extends Controller
             'categoria' => 'required|string|max:100',
         ]);
 
-        $producto->update($request->all());
+        $producto->update($request->only([
+            'codigo',
+            'nombre',
+            'precio',
+            'cantidad',
+            'categoria',
+        ]));
 
         return redirect()
             ->route('productos.index')
